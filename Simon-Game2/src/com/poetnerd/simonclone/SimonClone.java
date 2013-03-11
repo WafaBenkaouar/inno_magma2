@@ -11,9 +11,11 @@ package com.poetnerd.simonclone;
  * attribute the source, and you must share the source under these same terms.
  */
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -41,6 +43,12 @@ public final class SimonClone {
 	private static final boolean DISABLE_TIMEOUT = false;
 	private static final boolean TEST_RAZZ = false;
 	private static final boolean SHORT_GAME = false;
+	
+	
+	/* robot definition */
+	public Robot myBot;
+	public int robot_name = 0;
+	
 	
 	/* Ideally we pause between lighting or beeping for 50ms or 20ms, but the system tick 
 	 * is observed to be 100ms.  To conform to people's intuition of how long things should be
@@ -161,7 +169,7 @@ public final class SimonClone {
 		razToneIndex = 0;
 	}
 	
-	public Bundle saveState(Bundle map) {
+/*	public Bundle saveState(Bundle map) {
 		if (map != null) {
 			map.putInt(KEY_THE_GAME, Integer.valueOf(theGame));
 			map.putInt(KEY_GAME_LEVEL, Integer.valueOf(getLevel()));
@@ -188,12 +196,12 @@ public final class SimonClone {
 	public void restoreState(Bundle map) {
 		gameMode = PAUSED;  // Inhibit any action until we're fully restored.
 		
-		/* Extract the items also kept as preferences. */
+		 Extract the items also kept as preferences. 
 		setGame(map.getInt(KEY_THE_GAME));
 		setLevel(map.getInt(KEY_GAME_LEVEL));
 		setLongest(map.getString(KEY_LONGEST_SEQUENCE));
 		
-		/* Extract the rest. */
+		 Extract the rest. 
 		setCurrent(map.getString(KEY_CURRENT_SEQUENCE));
 		sequenceIndex = map.getInt(KEY_SEQUENCE_INDEX);
 		totalLength = map.getInt(KEY_TOTAL_LENGTH);
@@ -209,7 +217,7 @@ public final class SimonClone {
 		mLastUpdate = System.currentTimeMillis();		// Reset the clock.
 		heardButtonPress = map.getBoolean(KEY_HEARD_BUTTON_PRESS);
 		gameMode = map.getInt(KEY_GAME_MODE);			// Let the game proceed!
-	}
+	}*/
 	
 	/*
 	 * scaleBeepDuration
@@ -605,7 +613,12 @@ public final class SimonClone {
 		}
 		else {
 			gameClearTimeout();					// showButton Press would have done this for us.
+			if(this.robot_name == 0)
 			doStream(soundIds[LOSE_SOUND]);
+			else{
+			myBot.playReaction(LOSE_SOUND);
+				
+			}
 			if (theGame == 3) {		// Eliminate color that was pressed in game 3.
 				activeColors[buttonIndex] = false;
 			}
@@ -627,31 +640,81 @@ public final class SimonClone {
 			
 				switch (gameMode) {
 				case WON:
+					if(robot_name==0)
 					doStream(soundIds[VICTORY_SOUND]);
 					/* TODO
 					 * make reeti happy
 					 */
+					else {
+					
+						myBot.playReaction(VICTORY_SOUND);
+					
+					}
 					break;
 				case WINNING:
+					if(robot_name==0)
 					doStream(soundIds[RED]);  // Play the red sound for win.
+					else{
+						
+							myBot.playReaction(RED);
+						
+					}
+					
 					break;
 				case LOSING: 
+					if(robot_name==0)
 					doStream(soundIds[LOSE_SOUND]);
+					else{
+						
+							myBot.playReaction(LOSE_SOUND);
+						
+					}
 					/* TODO
 					 * Reeti : " ben a alors plu vite
 					 */
 					return;
 				case LISTENING: 
+					
 					if (currentSequence[sequenceIndex] == index) // When we miss we barf immediately
+						if(robot_name==0)
 						doStream(soundIds[index]);
-					else
+						else {
+							
+								myBot.playReaction(index);
+							
+						}
+						
+					else{
+						if(robot_name==0)
 						doStream(soundIds[LOSE_SOUND]);
+						else{
+							
+								myBot.playReaction(LOSE_SOUND);
+							
+						}
+					}
+					
+					
 					break;
 				case RAZZING:
-					if (razToneIndex < 9) doStream(soundIds[index]);
+					if (razToneIndex < 9){ 
+						if(robot_name==0)
+						doStream(soundIds[index]);
+						else{
+							
+								myBot.playReaction(index);
+							
+						}
+					}
 					break;
 				default: 
+					if(robot_name==0)
 					doStream(soundIds[index]);
+					else{
+						
+							myBot.playReaction(index);
+						
+					}
 					break;
 				}
 				for (Listener listener : listeners) {
@@ -711,7 +774,8 @@ public final class SimonClone {
 		if (index >= 0 && index < TOTAL_BUTTONS) {
 			if (buttonPressMap[index] == true) {
 				buttonPressMap[index] = false;
-					if (speakerStream != 0) {
+				if(robot_name==0)	
+				if (speakerStream != 0) {
 						soundPool.stop(speakerStream);
 						speakerStream = 0;
 				}
@@ -724,7 +788,7 @@ public final class SimonClone {
 
 
 	public void doStream (int soundId) {
-		if (soundId != 0) {  // Don't do anything different if our soundID is invalid.
+		if (soundId != 0 && robot_name==0) {  // Don't do anything different if our soundID is invalid.
 			if (speakerStream !=0) {  // Stop what we were doing.
 				soundPool.stop(speakerStream);
 			}
@@ -755,6 +819,36 @@ public final class SimonClone {
 		for (Listener listener : listeners) {
 			listener.multipleButtonStateChanged();
 		}
+	}
+	
+	public void setRobot(int item_index){
+		switch(item_index){
+		case 1:
+			setNao();
+		case 2:
+			setReeti();		
+		default :
+			robot_name =0;
+		}
+	}
+	
+	public void setReeti(){
+		try {
+			myBot = new MonReeti("reeti") ;
+			robot_name =2;
+		} catch (IOException e1) {
+			
+			e1.printStackTrace();
+		}
+	}
+	public void setNao(){
+		/*try {
+				myBot = new MonNao("nao") ;
+				robot_name =1;
+		} catch (IOException e1) {			
+			e1.printStackTrace();
+		}*/
+		
 	}
 	
 	public void dispose() {

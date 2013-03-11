@@ -1,9 +1,7 @@
 package com.poetnerd.simonclone;
 import java.io.IOException;
 
-import android.graphics.Color;
 
-import liburbi.UClient;
 
 
 public abstract class Robot {
@@ -11,7 +9,7 @@ public abstract class Robot {
 	
 	public String IP_NAO = "192.168.0.101";
 	public int PORT_NAO = 54000;
-	public String IP_REETI = "129.88.50.112";
+	public String IP_REETI = "10.42.43.1";
 	public  int PORT_REETI = 54001;
 	public String IP_DEFAULT = IP_REETI;
 	public  int PORT_DEFAULT = PORT_REETI;
@@ -86,17 +84,17 @@ public abstract class Robot {
 	 * @param message
 	 * @throws IOException
 	 */
-	abstract void say(String message)throws IOException;
+	abstract void say(String message);
 	
 	/**
 	 * reaction of the robot to the user click on a color
 	 * @param color
 	 * @throws IOException
 	 */
-	abstract void playColor(String color) throws IOException;
+	abstract void playColor(String color);
 	
 	
-	public void playReaction(Integer rea) throws IOException {
+	public void playReaction(Integer rea)  {
 		switch (rea) {
 		case GREEN:
 			playColor("green");
@@ -127,27 +125,27 @@ public abstract class Robot {
 	 * @param color
 	 * @throws IOException
 	 */
-	abstract void changeColor(String color) throws IOException;
+	abstract void changeColor(String color) ;
 	
 	/**
 	 * plays a behaviour that the robot contains
 	 * @param behaviourPath
 	 * @throws IOException
 	 */
-	abstract void playBehaviour(String behaviourPath) throws IOException;
+	abstract void playBehaviour(String behaviourPath) ;
 	
 	/**
 	 * plays a music file
 	 * @param musicPath
 	 * @throws IOException
 	 */
-	abstract void playMusic(String musicPath) throws IOException;
+	abstract void playMusic(String musicPath) ;
 	
 	/**
 	 * disconnect the robot
 	 * @throws IOException
 	 */
-	abstract void disconnectRobot()throws IOException;
+	abstract void disconnectRobot();
 	
 	
 }

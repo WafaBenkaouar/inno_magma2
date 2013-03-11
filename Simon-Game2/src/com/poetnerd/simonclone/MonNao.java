@@ -26,19 +26,19 @@ public class MonNao extends Robot{
 	}
 
 	@Override
-	void say(String message) throws IOException {
+	void say(String message)  {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	void playColor(String color) throws IOException {
+	void playColor(String color)  {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	void changeColor(String color) throws IOException {
+	void changeColor(String color) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -50,7 +50,7 @@ public class MonNao extends Robot{
 	}
 
 	@Override
-	void playBehaviour(String behaviourPath) throws IOException {
+	void playBehaviour(String behaviourPath)  {
 		// TODO Auto-generated method stub
 		
 	}
@@ -80,7 +80,7 @@ public class MonNao extends Robot{
 	}
 
 	@Override
-	void playMusic(String musicPath) throws IOException {
+	void playMusic(String musicPath)  {
 		// TODO Auto-generated method stub
 		
 	}

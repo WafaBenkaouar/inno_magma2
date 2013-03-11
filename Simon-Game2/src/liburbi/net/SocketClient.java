@@ -33,9 +33,6 @@ import java.nio.charset.*;
 import java.net.*;
 import java.util.*;
 
-
-
-
 public class SocketClient implements Runnable
 {
     /** The default port the client should connect to. */
@@ -310,53 +307,40 @@ public class SocketClient implements Runnable
 	 */
     public void run()
     {
-		
-				try {
-					channel.register(selector,  SelectionKey.OP_READ );
-				} catch (ClosedChannelException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+		try
+			{
+				channel.register(selector,  SelectionKey.OP_READ );
 
-				try {
-					while (selector.select() > 0)
-						{
-							Set		keys = selector.selectedKeys();
-							Iterator i = keys.iterator();
-							while (i.hasNext())
-								{
-									SelectionKey	key = (SelectionKey)i.next();
-									i.remove();
-									
-									SocketChannel	currentChannel = (SocketChannel)key.channel();
-									if (key.isConnectable())
-										{
-											if (currentChannel.isConnectionPending())
-												{
-													try {
-														currentChannel.finishConnect();
-													} catch (IOException e) {
-														// TODO Auto-generated catch block
-														e.printStackTrace();
-													}
-												}
-										}
-									else if (key.isReadable())
-										{
-											receive();
-										}
-								}
-						}
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				while (selector.select() > 0)
+					{
+						Set		keys = selector.selectedKeys();
+						Iterator i = keys.iterator();
+						while (i.hasNext())
+							{
+								SelectionKey	key = (SelectionKey)i.next();
+								i.remove();
+								
+								SocketChannel	currentChannel = (SocketChannel)key.channel();
+								if (key.isConnectable())
+									{
+										if (currentChannel.isConnectionPending())
+											{
+												currentChannel.finishConnect();
+											}
+									}
+								else if (key.isReadable())
+									{
+										receive();
+									}
+							}
+					}
 				threaded = false;
-			
-		
-				//threaded = false;
-				//e.printStackTrace();
-			
+			}
+		catch (IOException  e)
+			{
+				threaded = false;
+				e.printStackTrace();
+			}
 	}
 }
 

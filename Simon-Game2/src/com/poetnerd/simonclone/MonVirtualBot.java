@@ -20,17 +20,17 @@ public class MonVirtualBot extends Robot {
 		
 	}
 	
-	public void playColor(String color) throws IOException{
+	public void playColor(String color) {
 		this.say(color);
 		changeColor(color);
 		
 	}
 	
-	public void say(String message) throws IOException{
+	public void say(String message) {
 		
 	}
 	
-	public void changeColor(String color)throws IOException{
+	public void changeColor(String color){
 		
 
 	}
@@ -42,7 +42,7 @@ public class MonVirtualBot extends Robot {
 	}
 
 	@Override
-	void playBehaviour(String behaviourPath) throws IOException {
+	void playBehaviour(String behaviourPath) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -72,7 +72,7 @@ public class MonVirtualBot extends Robot {
 	}
 
 	@Override
-	void playMusic(String musicPath) throws IOException {
+	void playMusic(String musicPath)  {
 		// TODO Auto-generated method stub
 		
 	}

@@ -8,7 +8,7 @@ import android.graphics.Color;
 
 public class MonReeti extends Robot{
 
-	public String IP_REETI = "reetix.imag.fr" ;//"129.88.50.112";
+	public String IP_REETI = "10.42.43.1";
 	public int PORT_REETI = 54001;
 	private UClient cli  ;
 	
@@ -30,35 +30,52 @@ public class MonReeti extends Robot{
 		cli = new UClient(ip, port, UClient.URBI_BUFLEN) ;
 	}
 	
-	public void playColor(String color) throws IOException{
-		this.say(color);
-		changeColor(color);
+	public void playColor(String color) {
+		//this.say(color);
+		//changeColor(color);
+		playBehaviour(color+"Seq");
+		
 		//
 		//+"player.playMus(\"/home/reeti/reetiDocuments/Music/SimonGame/red_long.ogg\");"
 		//);
 		
 	}
 	
-	public void say(String message) throws IOException{
-		cli.send("tts.say(\" "+message+"\");");
+	public void say(String message) {
+		try {
+			cli.send("tts.say(\" "+message+"\");");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
-	public void changeColor(String color)throws IOException{
-		cli.send("servo.changeLedColor(\""+color+"\"); ");
+	public void changeColor(String color){
+		try {
+			cli.send("servo.changeLedColor(\""+color+"\"); ");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
 
 	@Override
-	void disconnectRobot() throws IOException{
+	void disconnectRobot() {
 		cli.disconnect();
 		
 	}
 
 
 	@Override
-	void playBehaviour(String behaviourPath) throws IOException {
-		cli.send("player.playSequence(\"/home/reeti/reetiDocuments/Sequences/Simon_Game/"+behaviourPath+"\");");
+	void playBehaviour(String behaviourPath) {
+		try {
+			cli.send("player.playSequence(\"/home/reeti/reetiDocuments/Sequences/Simon_Game/"+behaviourPath+"\");");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
@@ -88,8 +105,13 @@ public class MonReeti extends Robot{
 
 
 	@Override
-	void playMusic(String musicPath) throws IOException {
-		cli.send("player.playMus(\"/home/reeti/reetiDocuments/Music/SimonGame/"+musicPath+"\");");	
+	void playMusic(String musicPath)  {
+		try {
+			cli.send("player.playMus(\"/home/reeti/reetiDocuments/Music/SimonGame/"+musicPath+"\");");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 	}
 
 

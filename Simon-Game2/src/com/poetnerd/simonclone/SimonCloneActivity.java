@@ -57,7 +57,7 @@ public class SimonCloneActivity extends Activity {
 	private TextView gameDisplay;
 	
 	
-	private static final String IP_REETI = "10.42.43.1";
+	private static final String IP_REETI = "192.168.0.107";
 	private static final String IP_NAO = "192.168.0.101";
 	private static final int PORT_REETI = 54001;
 	private static final int PORT_NAO = 54000;
@@ -79,6 +79,7 @@ public class SimonCloneActivity extends Activity {
 
         AlertDialog ad = onCreateDialog(savedInstanceState);
         ad.show();
+        model.setRobot(2);
         
         ButtonGridView grid = (ButtonGridView) this.findViewById(R.id.button_grid);
         grid.setSimonCloneModel(model);
@@ -89,8 +90,8 @@ public class SimonCloneActivity extends Activity {
 
         
 		/* 
-		 * ˆ la place on envoie la lecture d'un fichier intro qui 
-		 * explique le jeu et permet au robot de se prŽsenter
+		 * ï¿½ la place on envoie la lecture d'un fichier intro qui 
+		 * explique le jeu et permet au robot de se prï¿½senter
 		 * TODO */
        
         
@@ -112,7 +113,6 @@ public class SimonCloneActivity extends Activity {
         startButton.setOnClickListener(new OnClickListener() {        	
         	public void onClick(View v) {
         		model.gameStart();
-        		
         	}
         });
         
@@ -130,18 +130,21 @@ public class SimonCloneActivity extends Activity {
         } else {
         	/* If I understand the activity cycle, I can put this here and not override
         	 * onRestoreInstanceState */
-        	model.restoreState(savedInstanceState);
+        	//model.restoreState(savedInstanceState);
         }
     }
       
     
-    private AlertDialog onCreateDialog(Bundle savedInstanceState){
+    private AlertDialog onCreateDialog(Bundle savedInstanceState) {
     	AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.pick_robot);
                builder.setItems(R.array.mes_bots, new DialogInterface.OnClickListener() {
                    public void onClick(DialogInterface dialog, int which) {
-                   // The 'which' argument contains the index position
-                   // of the selected item
+                	   
+						model.robot_name = which+1;
+					
+                   	   //display another dialog with ip and port
+                	   //levelDisplay.setText(String.valueOf(whichButton + 1));
                }
         });
         return builder.create();
@@ -150,7 +153,7 @@ public class SimonCloneActivity extends Activity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
     	super.onSaveInstanceState(outState);
-    	model.saveState(outState);
+    	//model.saveState(outState);
     }
     
     @Override
@@ -251,6 +254,9 @@ public class SimonCloneActivity extends Activity {
         	return true;
         case R.id.help:
         	showDialog(HELP_DIALOG);
+        	return true;
+        case R.id.set_robot:
+        	model.setRobot(model.robot_name);
         	return true;
         case R.id.clear_longest:
         	model.setLongest("");
