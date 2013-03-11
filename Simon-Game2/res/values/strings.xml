@@ -69,7 +69,7 @@ If you press your color at the wrong time, you are out and SimonClone starts aga
 Last player in, wins!\n\n.
 </string>
     <string-array name="level_choices">
-        <item>Level 1: Remember 8</item>
+        <item>Level 1: Remember 4</item>
         <item>Level 2: Remember 14</item>
         <item>Level 3: Remember 20</item>
         <item>Level 4: Remember 31</item>

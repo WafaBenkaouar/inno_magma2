@@ -656,7 +656,7 @@ public final class SimonClone {
 					doStream(soundIds[RED]);  // Play the red sound for win.
 					else{
 						
-							myBot.playReaction(RED);
+							//myBot.playReaction("pasmaljouer");
 						
 					}
 					
@@ -675,15 +675,18 @@ public final class SimonClone {
 					return;
 				case LISTENING: 
 					
-					if (currentSequence[sequenceIndex] == index) // When we miss we barf immediately
+					if (currentSequence[sequenceIndex] == index){ // When we miss we barf immediately
 						if(robot_name==0)
 						doStream(soundIds[index]);
+						
+					
 						else {
 							
 								myBot.playReaction(index);
 							
 						}
-						
+					
+					}
 					else{
 						if(robot_name==0)
 						doStream(soundIds[LOSE_SOUND]);
@@ -774,9 +777,13 @@ public final class SimonClone {
 		if (index >= 0 && index < TOTAL_BUTTONS) {
 			if (buttonPressMap[index] == true) {
 				buttonPressMap[index] = false;
-				if(robot_name==0)	
+				
 				if (speakerStream != 0) {
+					if(robot_name==0)	
 						soundPool.stop(speakerStream);
+					else{
+						myBot.setNeutral();
+					}
 						speakerStream = 0;
 				}
 				for (Listener listener : listeners) {
@@ -793,6 +800,13 @@ public final class SimonClone {
 				soundPool.stop(speakerStream);
 			}
 			speakerStream = soundPool.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f);
+		} 
+		
+		else if (soundId != 0 && robot_name!=0) {  // Don't do anything different if our soundID is invalid.
+			if (speakerStream !=0) { 
+			myBot.setNeutral();
+			}
+			myBot.playReaction(soundId);
 		} 
 	}
 	

@@ -109,10 +109,12 @@ public abstract class Robot {
 			playColor("blue");
 			break;
 		case VICTORY_SOUND:
-			say("bravo");
+			playBehaviour("victory");
+			//say("bravo");
 			break;
 		case LOSE_SOUND:
-			say("t'es nul");
+			playBehaviour("lose");
+			//say("t'es nul");
 			break;
 		case  SPECIAL_RAZZ :
 			say(" razz");
@@ -147,5 +149,5 @@ public abstract class Robot {
 	 */
 	abstract void disconnectRobot();
 	
-	
+	abstract void setNeutral() ;
 }

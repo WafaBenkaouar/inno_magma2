@@ -85,6 +85,12 @@ public class MonNao extends Robot{
 		
 	}
 
+	@Override
+	void setNeutral() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 	
 }

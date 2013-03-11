@@ -33,7 +33,7 @@ public class MonReeti extends Robot{
 	public void playColor(String color) {
 		//this.say(color);
 		//changeColor(color);
-		playBehaviour(color+"Seq");
+		playBehaviour(color+"Seq2");
 		
 		//
 		//+"player.playMus(\"/home/reeti/reetiDocuments/Music/SimonGame/red_long.ogg\");"
@@ -70,6 +70,8 @@ public class MonReeti extends Robot{
 
 	@Override
 	void playBehaviour(String behaviourPath) {
+		
+		if(behaviourPath.equals("lose")) behaviourPath ="reetiMDR";
 		try {
 			cli.send("player.playSequence(\"/home/reeti/reetiDocuments/Sequences/Simon_Game/"+behaviourPath+"\");");
 		} catch (IOException e) {
@@ -112,6 +114,18 @@ public class MonReeti extends Robot{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
+	}
+
+
+	@Override
+	void setNeutral() {
+		// TODO Auto-generated method stub
+		try {
+			cli.send("servo.neutralPosition();");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 

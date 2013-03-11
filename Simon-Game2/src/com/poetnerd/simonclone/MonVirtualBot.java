@@ -77,6 +77,12 @@ public class MonVirtualBot extends Robot {
 		
 	}
 
+	@Override
+	void setNeutral() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 	
 	
